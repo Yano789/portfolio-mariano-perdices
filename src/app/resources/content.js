@@ -56,8 +56,8 @@ const home = {
   subline: (
     <>
       I'm Yano, a data analyst  studying at 
-      <br /> <InlineCode>Singapore Univerity of Technology and Design (SUTD)</InlineCode>,
-      <br /> where I plan to hone my skills and build my own projects.
+      <br /><InlineCode>Singapore Univerity of Technology and Design(SUTD)</InlineCode>
+      <br />where I plan to hone my skills and build my own projects.
     </>
   ),
 };
