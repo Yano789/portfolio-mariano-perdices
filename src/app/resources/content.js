@@ -54,12 +54,11 @@ const home = {
   description: `Portfolio website showcasing my work as a ${person.role}`,
   headline: <>Mariano Perdices</>,
   subline: (
-    <div className="text-base sm:text-lg px-4 max-w-[90vw] mx-auto leading-relaxed">
-      I'm Yano, a data analyst studying at {' '}
-      <span className="font-mono bg-gray-100 px-1 rounded">
-        Singapore University of Technology and Design (SUTD)
-      </span>, where I plan to hone my skills and build my own projects.
-    </div>
+    <>
+      I'm Yano, a data analyst  studying at 
+      <br /> <InlineCode>Singapore Univerity of Technology and Design (SUTD)</InlineCode>,
+      <br /> where I plan to hone my skills and build my own projects.
+    </>
   ),
 };
 
