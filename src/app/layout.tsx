@@ -24,6 +24,12 @@ export async function generateMetadata() {
       siteName: `${person.firstName}'s Portfolio`,
       locale: "en_US",
       type: "website",
+      images: [    {
+        url: `/images/blank.png`,
+        width: 1,
+        height: 1,
+        alt: "Invisible preview",
+      },]
     },
     robots: {
       index: true,
