@@ -1,0 +1,55 @@
+---
+title: "Food Security Index (FSI) Prediction Model"
+publishedAt: "2024-04-01"
+summary: "Machine learning model predicting food security risks using economic, agricultural and health indicators to guide policy decisions"
+images:
+  - "/images/projects/food-security/slides-deck.jpg"
+  - "/images/projects/food-security/fsi-webapp.jpg"
+team:
+  - name: "Nadine Verelia Moiras"
+    role: "Data Scientist"
+    avatar: "/images/projects/food-security/nadine.jpg"
+    linkedIn: "https://www.linkedin.com/in/nadinemoiras/"
+  - name: "Valerie Lim Li Ting"
+    role: "Researcher"
+    avatar: "/images/projects/food-security/val.jfif"
+    linkedIn: "https://www.linkedin.com/in/valerie-lim-27986a244/"
+  - name: "Jing Yang Loke"
+    role: "Software Engineer"
+  - name: "Beatriz Acosta Ong"
+    role: "Researcher"
+    avatar: "/images/projects/food-security/beatriz.jfif"
+    linkedIn: "https://www.linkedin.com/in/beatriz-ong-28115b1ba/"
+  - name: "Mariano Guillermo Vicente Perdices"
+    role: "Data Scientist"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/mariano-perdices/"
+link: "https://github.com/Yano789/food_security_index_model"
+---
+
+## Overview
+Developed a predictive model analyzing 20+ indicators from World Bank, FAO and Economist Impact datasets to forecast Food Security Index (FSI) scores. The model helps identify high-risk regions and evaluate policy effectiveness.
+
+## Key Features
+- **Multi-Source Data Integration:** Combined economic (GDP, inflation), agricultural (land use, yields) and health (HDI, stunting) indicators
+- **Model Benchmarking:** Tested 3 regression approaches:
+  - Economic-only model (R² = 0.712)
+  - Agricultural-economic model (R² = 0.791)
+  - Full health-social model (R² = 0.843)
+- **Policy Dashboard:** Interactive visualization of key drivers by region
+
+## Technologies Used
+- **Python:** pandas for cleaning, scikit-learn for modeling
+- **Statistical Analysis:** Polynomial regression, cross-validation
+- **Visualization:** Plotly for interactive charts, matplotlib for static reports
+
+## Challenges and Learnings
+- **Data Gaps:** Developed custom imputation strategy for missing agricultural data
+- **Interpretability:** Created simplified decision trees for non-technical stakeholders
+- **Scale:** Optimized runtime for global dataset (187 countries, 20-year span)
+
+## Outcome
+The model achieved 84.3% accuracy in predicting FSI scores and identified:
+1. HDI as strongest single predictor
+2. Non-linear relationship between agricultural spending and food security
+3. Regional variations in key drivers
