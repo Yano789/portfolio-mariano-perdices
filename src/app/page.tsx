@@ -108,7 +108,7 @@ export default function Home() {
             <h2 id="about-title">About</h2>
             <p>
               I grew up in Cebu in the Philippines and came to Singapore as an ASEAN Scholar. Along the way I&rsquo;ve
-              studied at UC Berkeley and IE University, competed in the CFA Research Challenge, and earned an AI product
+              studied at UC Berkeley, done an exchange at IE University, competed in the CFA Research Challenge, and earned an AI product
               certificate from MIT.
             </p>
           </div>

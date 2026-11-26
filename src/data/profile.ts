@@ -82,7 +82,7 @@ export const education = [
   },
   {
     school: "IE University",
-    detail: "Computer Science and Artificial Intelligence",
+    detail: "Exchange semester, Computer Science and Artificial Intelligence",
     when: "Jan to May 2026",
   },
   {
@@ -152,7 +152,7 @@ export const timeline: { range: [number, number]; now: number; rows: { name: str
       name: "Abroad",
       bars: [
         { label: "UC Berkeley", start: 2024.37, end: 2024.62, kind: "study", note: "Summer program on cities, technology and society." },
-        { label: "IE University", start: 2026.0, end: 2026.38, kind: "study", note: "Computer Science and Artificial Intelligence." },
+        { label: "IE exchange", start: 2026.0, end: 2026.38, kind: "study", note: "Exchange semester in Computer Science and Artificial Intelligence." },
       ],
     },
     {
