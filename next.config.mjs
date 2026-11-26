@@ -1,13 +1,13 @@
-import mdx from "@next/mdx";
-
-const withMDX = mdx({
-  extension: /\.mdx?$/,
-  options: {},
-});
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  pageExtensions: ["ts", "tsx", "md", "mdx"],
+  async redirects() {
+    return [
+      { source: "/about", destination: "/#about", permanent: true },
+      { source: "/work", destination: "/#work", permanent: true },
+      { source: "/blog/:path*", destination: "/", permanent: false },
+      { source: "/gallery", destination: "/", permanent: false },
+    ];
+  },
 };
 
-export default withMDX(nextConfig);
+export default nextConfig;

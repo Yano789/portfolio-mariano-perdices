@@ -1,129 +1,97 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Flex, Heading, SmartImage, Text } from "@/once-ui/components";
-import { baseURL } from "@/app/resources";
-import { person } from "@/app/resources/content";
-import { formatDate } from "@/app/utils/formatDate";
-import ScrollToHash from "@/components/ScrollToHash";
+import { TopBar } from "@/components/TopBar";
+import { Contact } from "@/components/Contact";
+import { projects, getProject } from "@/data/projects";
 
-interface WorkParams {
-  params: {
-    slug: string;
-  };
+type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = getProject((await params).slug);
+  if (!project) return {};
+  return { title: project.title, description: project.summary };
 }
 
-export function generateMetadata({ params: { slug } }: WorkParams) {
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slug);
-
-  if (!post) {
-    return;
-  }
-
-  let {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    images,
-    image,
-    team,
-  } = post.metadata;
-  let ogImage = image ? `https://${baseURL}${image}` : `https://${baseURL}/og?title=${title}`;
-
-  return {
-    title,
-    description,
-    images,
-    team,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime,
-      url: `https://${baseURL}/work/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
-}
-
-export default function Project({ params }: WorkParams) {
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === params.slug);
-
-  if (!post) {
-    notFound();
-  }
-
-  const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
-    })) || [];
+export default async function ProjectPage({ params }: Props) {
+  const project = getProject((await params).slug);
+  if (!project) notFound();
 
   return (
-    <Column as="section" maxWidth="m" horizontal="center" gap="l">
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `https://${baseURL}${post.metadata.image}`
-              : `https://${baseURL}/og?title=${post.metadata.title}`,
-            url: `https://${baseURL}/work/${post.slug}`,
-            author: {
-              "@type": "Person",
-              name: person.name,
-            },
-          }),
-        }}
-      />
-      <Column maxWidth="xs" gap="16">
-        <Button href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
-          Projects
-        </Button>
-        <Heading variant="display-strong-s">{post.metadata.title}</Heading>
-      </Column>
-      {post.metadata.images.length > 0 && (
-        <SmartImage
-          priority
-          aspectRatio="16 / 9"
-          radius="m"
-          alt="image"
-          src={post.metadata.images[0]}
-        />
-      )}
-      <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        <Flex gap="12" marginBottom="24" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="m" />}
-          <Text variant="body-default-s" onBackground="neutral-weak">
-            {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-          </Text>
-        </Flex>
-        <CustomMDX source={post.content} />
-      </Column>
-      <ScrollToHash />
-    </Column>
+    <>
+      <TopBar />
+      <main id="main" className="wrap case">
+        <Link className="back" href="/#projects">Back to all projects</Link>
+        <h1>{project.title}</h1>
+        <p className="lede">{project.summary}</p>
+        <dl className="facts">
+          <div><dt>Year</dt><dd>{project.year}</dd></div>
+          <div><dt>Role</dt><dd>{project.myRole}</dd></div>
+          <div><dt>Built with</dt><dd>{project.tags.join(", ")}</dd></div>
+          {project.link && (
+            <div><dt>Link</dt><dd><a href={project.link.href} target="_blank" rel="noreferrer">{project.link.label}</a></dd></div>
+          )}
+        </dl>
+
+        {project.cover && (
+          <div className="case-cover">
+            <Image
+              src={project.cover}
+              alt={`${project.title} overview slide`}
+              width={1600}
+              height={900}
+              sizes="(max-width: 1200px) 100vw, 1100px"
+              priority
+              style={{ width: "100%", height: "auto" }}
+            />
+          </div>
+        )}
+
+        <div className="case-body">
+          {project.sections.map((s) => (
+            <section key={s.heading}>
+              <h2>{s.heading}</h2>
+              {s.body && <p>{s.body}</p>}
+              {s.list && <ul>{s.list.map((li) => <li key={li}>{li}</li>)}</ul>}
+            </section>
+          ))}
+          {project.team && (
+            <section>
+              <h2>Team</h2>
+              <ul className="team">
+                {project.team.map((m) => (
+                  <li key={m.name}>
+                    {m.linkedIn ? <a href={m.linkedIn} target="_blank" rel="noreferrer">{m.name}</a> : m.name}
+                    <span>{m.role}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+
+        {project.images && project.images.length > 0 && (
+          <div className="gallery">
+            {project.images.map((src, i) => (
+              <Image
+                key={src}
+                src={src}
+                alt={`${project.title} screen ${i + 1}`}
+                width={1600}
+                height={900}
+                sizes="(max-width: 640px) 100vw, 560px"
+                style={{ width: "100%", height: "auto" }}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+      <Contact />
+    </>
   );
 }
